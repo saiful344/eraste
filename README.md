@@ -11,5 +11,5 @@
 - pass   = secret
 
 - ---USERS---
-- email  = user@gmail.com
+- email  = users@gmail.com
 - pass   = secret

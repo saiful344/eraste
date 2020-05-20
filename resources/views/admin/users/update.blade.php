@@ -1,6 +1,6 @@
 @extends("layout.app")
 @section('content')
-<h2>Create Form</h2>
+<h2>Update Form</h2>
 <form action="/users/edit_proccess" method="post">
 	{{csrf_field()}}
   <input type="hidden" name="id" value="{{$data->id}}">

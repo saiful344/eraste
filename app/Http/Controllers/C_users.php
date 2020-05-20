@@ -30,6 +30,7 @@ class C_users extends Controller
         	"name" => $request->name,
         	"email"=> $request->email,
         	"password" => $password,
+        	"role"	=> $request->role,
         ];
          $this->_product->insert_data($data);
          return redirect('/users');

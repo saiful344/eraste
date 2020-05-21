@@ -11,7 +11,7 @@
   <div class="col-6">
     <p>{{$data_order->order_code}}</p>
     <p>{{$data_order->product->name}}</p>
-    <p>{{$data_order->product->qty}}</p>
+    <p>{{$data_order->qty}}</p>
     <p><?php echo "Rp. ".number_format($data_order->qty * $data_order->product->price,2)?></p>
   </div>
 </div>

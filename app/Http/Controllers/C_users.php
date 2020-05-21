@@ -9,17 +9,17 @@ use App\Http\Requests\UpdateRequest;
 
 class C_users extends Controller
 {
-	private $_product;
+	private $_users;
 	public function __construct(UsersInterface $product)
 	{
-		$this->_product = $product;
+		$this->_users = $product;
 	}
     public function index(){
     	return view("admin.users.index");
     }
     public function get_data(){
-    	$data = $this->_product->getAllData();
-        return $this->_product->table_data($data);
+    	$data = $this->_users->getAllData();
+        return $this->_users->table_data($data);
     }
     public function insert_view(){
         return view("admin.users.insert");
@@ -32,11 +32,11 @@ class C_users extends Controller
         	"password" => $password,
         	"role"	=> $request->role,
         ];
-         $this->_product->insert_data($data);
+         $this->_users->insert_data($data);
          return redirect('/users');
     }
     public function edit_view($id){
-        $data = $this->_product->findById($id);
+        $data = $this->_users->findById($id);
         $data_role = [
         	"admin",'user'
         ];
@@ -45,11 +45,11 @@ class C_users extends Controller
     public function edit_proccess(UpdateRequest $request){
         $id = $request->id;
         $data = $request->all();
-        $this->_product->update_data($data,$id);
+        $this->_users->update_data($data,$id);
         return redirect('/users');
     }
     public function delete_proccess($id){
-        $this->_product->delete_data($id);
+        $this->_users->delete_data($id);
         return redirect('/users');
     }
 }

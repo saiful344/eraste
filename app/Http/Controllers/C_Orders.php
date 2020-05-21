@@ -20,9 +20,9 @@ class C_Orders extends Controller
         return $this->_orders->table_data();
     }
     public function insert_proccess(CoreRequest $request){
-        $data = $request->all();
-         $this->_orders->insert_data($data);
-         return redirect('/');
+         $data = $request->all();
+         $data_order = $this->_orders->insert_data($data);
+         return view("users.success",["data_order" => $data_order]);
     }
     public function edit_view($id){
         $data = $this->_orders->findById($id);

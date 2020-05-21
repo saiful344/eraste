@@ -26,7 +26,8 @@ class CoreRequest extends FormRequest
         $rules = [
             'name'  => 'required',
             'phone' => 'required|numeric|min:12',
-            'address'=> 'required'
+            'address'=> 'required',
+            'qty'    => 'required|numeric|min:1',
         ];
         return $rules;
     }

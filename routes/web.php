@@ -17,11 +17,11 @@ Route::get('/login','C_Auth@login')->name('login');
 Route::post('/postlogin','C_Auth@postlogin');
 Route::get('/logout','C_Auth@logout');
 
-Route::group(['middleware' => ['auth','checkAkses:admin,user']],function(){
-	Route::get('/','C_customers@index');
-	Route::get('/buys/{id}',"C_customers@view_buys");
-	Route::post('/orders/insert_proccess','C_Orders@insert_proccess');
-});
+
+Route::get('/','C_customers@index');
+Route::get('/buys/{id}',"C_customers@view_buys");
+Route::post('/orders/Output_note','C_Orders@insert_proccess');
+
 
 
 Route::group(['middleware' => ['auth','checkAkses:admin']],function(){

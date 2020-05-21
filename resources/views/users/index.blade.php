@@ -1,5 +1,6 @@
 @extends("layout.app")
 @section('content')
+<h2>Product</h2>
 <div class="row">
 @foreach($data as $value)
 <div class="card m-4" style="width: 18rem;">

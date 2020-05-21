@@ -25,6 +25,13 @@
      <small class="mt-2 mb-2">{{ $message }}</small>
     @enderror
   </div>
+  <div class="form-group">
+    <label for="qty">Qty</label>
+    <input type="number" class="form-control @error('qty') is-invalid @enderror" id="qty" name="qty" value="{{ $data->qty }}">
+    @error('qty')
+     <small class="mt-2 mb-2">{{ $message }}</small>
+    @enderror
+  </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 @endsection

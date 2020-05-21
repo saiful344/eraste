@@ -30,7 +30,7 @@ class OrdersRepositories implements OrdersInterface
 					return $data;
 				})
 				->addColumn('price',function($data){
-					$data = "Rp. " .$data->Product->price;
+					$data = "Rp.".number_format($data->qty * $data->product->price,2);
 					return $data;
 				})
     			->addColumn('action',function($data){
@@ -43,10 +43,12 @@ class OrdersRepositories implements OrdersInterface
 	public function insert_data($data)
 	{
         $code = array(
-            "order_code" => Str::random(9)
+            "order_code" => rand()
         );
         $finish = array_merge($data,$code);
-		$this->_orders->create($finish);
+		$query = $this->_orders->create($finish);
+		$id = $query->id;
+		return $this->findById($id);
 	}
 	public function update_data($data,$id)
 	{

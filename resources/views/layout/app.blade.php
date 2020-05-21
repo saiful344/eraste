@@ -16,6 +16,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    @if(auth()->user() == true)
     @if(auth()->user()->role === "admin")
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item active">
@@ -29,11 +30,18 @@
       </li>
     </ul>
     @endif
+    @endif
     <form class="form-inline my-2 my-lg-0 ">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+    @if(auth()->user() == true)
       <li class="nav-item">
         <a class="nav-link" href="/logout">Log out</a>
       </li>
+     @else
+      <li class="nav-item">
+        <a class="nav-link" href="/login">Login</a>
+      </li>
+      @endif
     </ul>
     </form>
   </div>

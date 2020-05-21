@@ -11,7 +11,7 @@ class M_Orders extends Model
     protected $table = "tb_orders";
     protected $dates = ["deleted_at"];
     
-    protected $fillable = ["order_code","product_id","name","phone","address"];
+    protected $fillable = ["order_code","product_id","name","phone","address","qty"];
 
     public function Product()
 	{

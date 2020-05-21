@@ -24,11 +24,15 @@ class ProductRepositories implements ProductInterface
 	public function table_data($data)
 	{
 		return DataTables::of($data)
+		    	->addColumn('price_row',function($data){
+					$data = "Rp.".number_format($data->price,2);
+					return $data;
+    			})
     			->addColumn('action',function($data){
     				$update = '<a href="/product/edit/'.$data->id.'" > Edit </a> | <a href="/product/delete/'.$data->id.'"> Delete </a>';
     				return $update;
     			})
-    			->rawColumns(['action'])
+    			->rawColumns(['action','price_row'])
     			->make(true);
 	}
 	public function insert_data($data)

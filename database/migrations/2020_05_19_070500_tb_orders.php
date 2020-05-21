@@ -18,6 +18,7 @@ class TbOrders extends Migration
         $table->string('order_code')->unique();
         $table->string("name",100);
         $table->biginteger("phone");
+        $table->integer('qty');
         $table->text("address");
         $table->tinyInteger('product_id');
         $table->softDeletes('deleted_at',0);

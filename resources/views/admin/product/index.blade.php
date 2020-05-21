@@ -29,8 +29,8 @@
                             name: 'name'
                         },
                         {
-                            data: 'price',
-                            name: 'price'
+                            data: 'price_row',
+                            name: 'price_row'
                         },
                         {
                             data: 'action',

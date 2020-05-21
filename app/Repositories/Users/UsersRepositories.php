@@ -5,6 +5,7 @@ use App\Repositories\Users\Users as UsersInterface;
 use App\User;
 use DataTables;
 use Illuminate\Support\Str;
+use DB;
 
 class UsersRepositories implements UsersInterface
 {
@@ -34,16 +35,40 @@ class UsersRepositories implements UsersInterface
 	}
 	public function insert_data($data)
 	{
-		$this->_users->create($data);
+		DB::beginTransaction();
+		try{
+			$this->_users->create($data);
+			DB::commit();
+			return response(['message' => "ok" ,"status" => 1],200);
+		}catch(Exception $e){
+			DB::rollback();
+			return response(['message' => "failed","status" => 0],500);
+		}
 	}
 	public function update_data($data,$id)
 	{
-		$fill = $this->_users->find($id);
-		$fill->update($data);
+		DB::beginTransaction();
+		try{
+			$fill = $this->_users->find($id);
+			$fill->update($data);
+			DB::commit();
+			return response(['message' => "ok" ,"status" => 1],200);
+		}catch(Exception $e){
+			DB::rollback();
+			return response(['message' => "failed","status" => 0],500);
+		}
 	}
 	public function delete_data($id)
 	{
-		$fill = $this->_users->find($id);
-		$fill->delete($id);
+		DB::beginTransaction();
+		try{
+			$fill = $this->_users->find($id);
+			$fill->delete($id);
+			DB::commit();
+			return response(['message' => "ok" ,"status" => 1],200);
+		}catch(Exception $e){
+			DB::rollback();
+			return response(['message' => "failed","status" => 0],500);
+		}
 	}
 }

@@ -5,6 +5,7 @@ use App\Repositories\Product\Product as ProductInterface;
 use App\M_Product;
 use DataTables;
 use Illuminate\Support\Str;
+use DB;
 
 class ProductRepositories implements ProductInterface
 {
@@ -37,20 +38,44 @@ class ProductRepositories implements ProductInterface
 	}
 	public function insert_data($data)
 	{
-        $code = array(
-            "code" => Str::random(3)
-        );
-        $finish = array_merge($data,$code);
-		$this->_product->create($finish);
+		DB::beginTransaction();
+		try{
+	        $code = array(
+	            "code" => Str::random(3)
+	        );
+	        $finish = array_merge($data,$code);
+			$this->_product->create($finish);
+			DB::commit();
+			return response(['message' => "ok" ,"status" => 1],200);
+		}catch(Exception $e){
+			DB::rollback();
+			return response(['message' => "failed","status" => 0],500);
+		}
 	}
 	public function update_data($data,$id)
 	{
-		$fill = $this->_product->find($id);
-		$fill->update($data);
+		DB::beginTransaction();
+		try{
+			$fill = $this->_product->find($id);
+			$fill->update($data);
+			DB::commit();
+			return response(['message' => "ok" ,"status" => 1],200);
+		}catch(Exception $e){
+			DB::rollback();
+			return response(['message' => "failed","status" => 0],500);
+		}
 	}
 	public function delete_data($id)
 	{
-		$fill = $this->_product->find($id);
-		$fill->delete($id);
+		DB::beginTransaction();
+		try{
+			$fill = $this->_product->find($id);
+			$fill->delete($id);
+			DB::commit();
+			return response(['message' => "ok" ,"status" => 1],200);
+		}catch(Exception $e){
+			DB::rollback();
+			return response(['message' => "failed","status" => 0],500);
+		}
 	}
 }

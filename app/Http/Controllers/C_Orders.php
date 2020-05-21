@@ -21,8 +21,15 @@ class C_Orders extends Controller
     }
     public function insert_proccess(CoreRequest $request){
          $data = $request->all();
-         $data_order = $this->_orders->insert_data($data);
-         return view("users.success",["data_order" => $data_order]);
+         $value = $this->_orders->insert_data($data);
+         $status = $value->original['status'];
+         $message = $value->original['message'];
+         if ($status > 0) {
+            $response = $value->original['data'];
+            return view("users.success",["data_order" => $response]);
+         }else{
+            abort(403, "$message");
+         };
     }
     public function edit_view($id){
         $data = $this->_orders->findById($id);
@@ -31,12 +38,23 @@ class C_Orders extends Controller
     public function edit_proccess(CoreRequest $request){
         $id = $request->id;
         $data = $request->all();
-        $this->_orders->update_data($data,$id);
-
-        return redirect('/orders');
+        $value = $this->_orders->update_data($data,$id);
+         $status = $value->original['status'];
+         $message = $value->original['message'];
+         if ($status > 0) {
+            return redirect("/orders");
+         }else{
+            abort(403, "$message");
+         };
     }
     public function delete_proccess($id){
-        $this->_orders->delete_data($id);
-        return redirect('/orders');
+         $data= $this->_orders->delete_data($id);
+         $status = $data->original['status'];
+         $message = $data->original['message'];
+         if ($status > 0) {
+            return redirect("/orders");
+         }else{
+            abort(403, "$message");
+         };
     }
 }

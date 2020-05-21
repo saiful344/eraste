@@ -31,7 +31,7 @@
   </div>
   <div class="form-group">
     <label for="qty">Qty</label>
-    <input type="number" class="form-control @error('qty') is-invalid @enderror" id="qty" name="qty" value="{{old('qty')}}">
+    <input type="number" class="form-control @error('qty') is-invalid @enderror" id="qty" name="qty" min="1" max="{{$data->qty}}" value="{{old('qty')}}">
     @error('qty')
      <small class="mt-2 mb-2">{{ $message }}</small>
     @enderror

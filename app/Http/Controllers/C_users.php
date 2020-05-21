@@ -25,15 +25,21 @@ class C_users extends Controller
         return view("admin.users.insert");
     }
     public function insert_proccess(UserRequest $request){
-        $password = bcrypt($request->password);
-        $data =[
+         $password = bcrypt($request->password);
+         $data =[
         	"name" => $request->name,
         	"email"=> $request->email,
         	"password" => $password,
         	"role"	=> $request->role,
-        ];
-         $this->_users->insert_data($data);
-         return redirect('/users');
+         ];
+         $value = $this->_users->insert_data($data);
+         $status = $value->original['status'];
+         $message = $value->original['message'];
+         if ($status > 0) {
+            return redirect("/users");
+         }else{
+            abort(403, "$message");
+         };
     }
     public function edit_view($id){
         $data = $this->_users->findById($id);
@@ -45,11 +51,23 @@ class C_users extends Controller
     public function edit_proccess(UpdateRequest $request){
         $id = $request->id;
         $data = $request->all();
-        $this->_users->update_data($data,$id);
-        return redirect('/users');
+         $value = $this->_users->update_data($data,$id);
+         $status = $value->original['status'];
+         $message = $value->original['message'];
+         if ($status > 0) {
+            return redirect("/users");
+         }else{
+            abort(403, "$message");
+         };
     }
     public function delete_proccess($id){
-        $this->_users->delete_data($id);
-        return redirect('/users');
+         $value = $this->_users->delete_data($id);
+         $status = $value->original['status'];
+         $message = $value->original['message'];
+         if ($status > 0) {
+            return redirect("/users");
+         }else{
+            abort(403, "$message");
+         };
     }
 }

@@ -4,6 +4,7 @@
 <form action="/orders/edit_proccess" method="post">
 	{{csrf_field()}}
   <input type="hidden" name="id" value="{{ $data->id }}">
+  <input type="hidden" name="product_id" value="{{ $data->product_id }}">
   <div class="form-group">
     <label for="name">Name</label>
     <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ $data->name }}">

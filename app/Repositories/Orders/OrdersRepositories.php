@@ -3,8 +3,10 @@
 namespace App\Repositories\Orders;
 use App\Repositories\Orders\Orders as OrdersInterface;
 use App\M_Orders;
+use App\M_Product;
 use DataTables;
 use Illuminate\Support\Str;
+use DB;
 
 class OrdersRepositories implements OrdersInterface
 {
@@ -42,22 +44,57 @@ class OrdersRepositories implements OrdersInterface
 	}
 	public function insert_data($data)
 	{
-        $code = array(
-            "order_code" => rand()
-        );
-        $finish = array_merge($data,$code);
-		$query = $this->_orders->create($finish);
-		$id = $query->id;
-		return $this->findById($id);
+		DB::beginTransaction();
+		try{
+		        $code = array(
+		            "order_code" => rand()
+		        );
+		        $id_product = $data['product_id'];
+		        $findproduct = M_Product::find($id_product);
+		        if ($findproduct->qty > 0) {
+		        	$findproduct->decrement("qty",$data['qty']);
+			        $findproduct->update();
+			        $finish = array_merge($data,$code);
+					$query = $this->_orders->create($finish);
+					$id = $query->id;
+					$response = $this->findById($id);
+				DB::commit();
+				return response(['message' => "Nice","data" => $response,"status" => 1],200);
+		        }else{
+				   return response(['message' => "failed","status" => 0],500);
+		        }
+
+		}catch(Exception $e){
+			DB::rollback();
+			return response(['message' => "failed","status" => 0],500);
+		}
+
 	}
 	public function update_data($data,$id)
 	{
-		$fill = $this->_orders->find($id);
-		$fill->update($data);
+		DB::beginTransaction();
+		try{
+		       $fill = $this->_orders->find($id);
+			   $fill->update($data);
+			   DB::commit();
+			   return response(['message' => "ok" ,"status" => 1],200);
+		}catch(Exception $e){
+			DB::rollback();
+			return response(['message' => "failed","status" => 0],500);
+		}
 	}
 	public function delete_data($id)
 	{
-		$fill = $this->_orders->find($id);
-		$fill->delete($id);
+		DB::beginTransaction();
+		try{
+		    $fill = $this->_orders->find($id);
+			$fill = $this->_orders->find($id);
+			$fill->delete($id);
+			DB::commit();
+			return response(['message' => "ok" ,"status" => 1],200);
+		}catch(Exception $e){
+			DB::rollback();
+			return response(['message' => "failed","status" => 0],500);
+		}
 	}
 }

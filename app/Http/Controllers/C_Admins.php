@@ -25,8 +25,14 @@ class C_Admins extends Controller
     }
     public function insert_proccess(ProductRequest $request){
         $data = $request->all();
-         $this->_product->insert_data($data);
-         return redirect('/product');
+        $value = $this->_product->insert_data($data);
+        $status = $value->original['status'];
+         $message = $value->original['message'];
+         if ($status > 0) {
+            return redirect("/product");
+         }else{
+            abort(403, "$message");
+         };
     }
     public function edit_view($id){
         $data = $this->_product->findById($id);
@@ -35,11 +41,23 @@ class C_Admins extends Controller
     public function edit_proccess(ProductRequest $request){
         $id = $request->id;
         $data = $request->all();
-        $this->_product->update_data($data,$id);
-        return redirect('/product');
+        $value = $this->_product->update_data($data,$id);
+        $status = $value->original['status'];
+        $message = $value->original['message'];
+         if ($status > 0) {
+            return redirect("/product");
+         }else{
+            abort(403, "$message");
+         };
     }
     public function delete_proccess($id){
-        $this->_product->delete_data($id);
-        return redirect('/product');
+         $value = $this->_product->delete_data($id);
+         $status = $value->original['status'];
+         $message = $value->original['message'];
+         if ($status > 0) {
+            return redirect("/product");
+         }else{
+            abort(403, "$message");
+         };
     }
 }

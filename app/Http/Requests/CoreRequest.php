@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\phoneNumber;
 
 class CoreRequest extends FormRequest
 {
@@ -25,7 +26,7 @@ class CoreRequest extends FormRequest
     {
         $rules = [
             'name'  => 'required',
-            'phone' => 'required|numeric|min:12',
+            'phone' => ["required",new phoneNumber],
             'address'=> 'required',
             'qty'    => 'required|numeric|min:1',
         ];
